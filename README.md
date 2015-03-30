@@ -73,3 +73,146 @@ or
 ``` bash
 $ php -r "echo 'hello world';"
 ```
+
+
+## Object
+
+### 数値
+
+```ruby
+123   #=> 123
+123.class   #=> Fixnum
+123.12.class   #=> Float
+9999999999999999999.class  #=> Bignum
+```
+* 精度によって型がかわります。
+
+```ruby
+a = 1
+++a #=> 1 #効果無し
+a-- #=> syntax error, unexpected keyword_end
+```
+* インクリメント/デクリメントはありません
+```ruby
+a = 1
+a += 1 #=> 2
+a -= 10 #=> -8
+```
+* rubyでは変数はオブジェクトの扱いではなく、オブジェクトのポインタを示すラベルという扱いになっている
+* インクリメントを行おうとすると１が格納された変数の値だけでなく、プログラム内で扱っている１という数字へのポインタが２を向くように
+```ruby
+1.__id__ #=> 3
+2.__id__ #=> 5
+3.__id__ #=> 7
+a = 1
+a.__id__ #=> 3
+a = 2
+a.__id__ #=> 5
+a = 3
+a.__id__ #=> 7
+```
+* 上記のようなrubyの設計上の理由で使えないようになっている
+* 参考: http://abe-log.cocolog-nifty.com/blog/2012/03/ruby-62d2.html
+
+### 文字列
+```ruby
+"123"   #=> "123"
+"123".class   #=> String
+:hoge   #=> :hoge
+:hoge.class   #=> Symbol
+"fuga".to_sym  #=> :fuga
+```
+* Stringは定義するたびにメモリを使いますが、Symbolは一度定義するとメモリが固定され、使い回されます。同じオブジェクトが使われることになるのでhashのキーによく使います。
+
+##### シンボルに関しての注意
+
+```ruby
+Symbol.all_symbols.size #=> 40328
+:hoge #=> :hoge
+Symbol.all_symbols.size #=> 40329
+```
+* Symbolは永久に消えません。Ruby2.2.0からGCの対象になったようですがそれ以前のRubyの場合GCの対象ではありません。むやみなto_symは危険です。
+ * 参考：　http://fiveteesixone.lackland.io/2015/01/21/symbol-gc-ruby-2-2/
+
+
+### 疑似変数
+```ruby
+true.class   #=> TrueClass
+false.class   #=> FalseClass
+nil   #=> nil
+nil.class   #=> NilClass
+```
+* true/false/nil( null )は疑似変数と呼ばれ特定のオブジェクトへのポインタをさしていて、ユーザーは変更出来ません。
+
+※.classはObjectクラスに定義されています。 http://docs.ruby-lang.org/ja/2.2.0/class/Object.html
+
+
+### 変数
+
+##### 参照渡しです。
+
+```ruby
+a = 'hoge'
+b = nil
+
+a.__id__ #=> 351208
+b.__id__ #=> 8
+b = a
+
+b.__id__ #=> 351208
+```
+* rubyでは変数はオブジェクトの扱いではなく、オブジェクトのポインタを示すラベルという扱いになっている
+
+##### メソッドがレシーバを返すものには注意が必要です。
+```ruby
+a = 'bar'
+b = a
+
+a.insert(0, 'foo')  # レシーバが返される
+a #=> "foobar"
+b #=> "foobar"
+```
+
+
+
+### Array
+```ruby
+# 宣言
+hoges = []   #=> []
+hoges = [1, 2, 4, 6]    #=>[1, 2, 4, 6]
+# 追加
+hoges << 8   #=>[1, 2, 4, 6, 8]
+fugas << 3   # 変数が無いと怒られます。
+#=> NameError: undefined local variable or method `hugas' for main:Object
+
+# 取得
+hoges[0]   #=> 2
+# 削除
+hoges.delete(8)  #=> 8
+hoges   #=>[1, 2, 4, 6]
+hoges.delete_at(0)  #=> 1
+hoges   #=>[2, 4, 6]
+# 操作のメソッドはだいたいそろってる
+
+```
+
+### hash
+```ruby
+# 宣言
+hoges = {}   #=> {}
+hoges = {hoge: 1, fuga: 2}   #=> {:hoge=>1, :fuga=>2}
+# 追加
+hoges[:piyp] = 5 #=> {:hoge=>1, :fuga=>2, :piyp=>5}
+fugas[:piyo] = 5 # 変数が無いと怒られます。
+#=> NameError: undefined local variable or method `fugas' for main:Object
+
+# 取得
+hoges[:hoge]   #=> 1
+# 削除
+hoges.delete(:fuga) #=> 8
+hoges   #=> {:hoge=>1, :piyp=>5}
+# 操作のメソッドはだいたいそろってる
+```
+* ruby 1.9 から、hashはシンボルを使用する場合,  '{hoge: 1}'で書けます。
+シンボル以外は  {‘hoge’ => 1} という書き方になります。
+※通称ハッシュロケット
