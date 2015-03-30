@@ -216,3 +216,148 @@ hoges   #=> {:hoge=>1, :piyp=>5}
 * ruby 1.9 から、hashはシンボルを使用する場合,  '{hoge: 1}'で書けます。
 シンボル以外は  {‘hoge’ => 1} という書き方になります。
 ※通称ハッシュロケット
+
+
+
+
+
+### if
+
+```ruby
+if 'hoge'.length > 3
+  puts 'fuga'
+elsif 'hoge'.length > 2
+  puts 'piyo'
+else
+  puts 'buu'
+end
+# 表示 'fuga'
+# => nil
+```
+* ifの書き方はこんな感じ
+
+
+```ruby
+foo = if 'hoge'.length > 3
+        'fuga'
+      elsif 'hoge'.length > 2
+        'piyo'
+      else
+        'boo'
+      end
+# => 'fuga'
+puts foo
+# 表示 'fuga'
+```
+
+* ifはブロック内の最後の行の返り値を返します。(一時変数が減らせるのでよくつかいます）
+
+```ruby
+puts 'hoge'.length > 3 ? 'fuga' : 'puyo'
+# 表示 'fuga'
+# => nil
+```
+* `if/else`のような単純な条件で単一の戻り値の場合、三項演算子が推奨されています。
+
+### 比較演算子
+
+詳しくはこちら
+http://docs.ruby-lang.org/ja/1.9.3/doc/symref.html
+
+### loop
+
+#### for 
+
+```rb
+# for
+list = [1, 2, 3, 5, 8]
+for item in list
+  puts item
+end
+1
+2
+3
+5
+8
+#=> [1, 2, 3, 5, 8]  # listが返る
+```
+
+* forはこんな感じ（使った記憶無し）
+
+#### while
+
+```ruby
+cnt = 0
+while cnt < 3
+  puts 'foobar'
+  cnt += 1
+end
+# 表示:
+#   foobar
+#   foobar
+#   foobar
+#=> nil
+```
+* whileもある（使った記憶無し）
+
+#### each/map
+
+* `for` `while`はほとんどの場合、eachでかけるので使うことは少ないです（書いた覚えがありません）
+
+```rb
+list.each do |item|
+  puts item
+end
+1
+2
+3
+5
+8
+#=> [1, 2, 3, 5, 8]
+```
+* こんなかんじ
+
+```rb
+list.each { |item| puts item }
+1
+2
+3
+5
+8
+#=> [1, 2, 3, 5, 8]
+```
+
+* ブロック`do...end`は`{...}で代用出来ます。１行ですみます。(改行も可能ですが、RubyStyleGuideでは`{}`の場合１行で改行が必要な場合は、`do...end`が推奨されています。見た目の問題です。
+
+```rb
+list.map do |item|
+  item.to_s
+end
+#=> ["1", "2", "3", "5", "8"]
+```
+
+* mapはブロック内の最後の戻り値を配列として返します。（よく使います）
+
+```rb
+list.map { |item| item.to_s }
+#=> ["1", "2", "3", "5", "8"]
+```
+* これも一行で記述可能です。
+
+```rb
+list.map(&:to_s)
+#=> ["1", "2", "3", "5", "8"]
+```
+
+* ブロックのレシーバが単一のメソッドを呼び出す場合、上記のように書きます。（わかってる人風のコードなのでナウいです）
+
+
+```rb
+5.times.map { :a } #=> [:a, :a, :a, :a, :a] # Enumeratorクラス
+(5...10).map { |a| a } #=> [5, 6, 7, 8, 9]  # Rangeクラス
+```
+* eachでも可
+
+
+
+
