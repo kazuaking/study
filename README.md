@@ -2,6 +2,9 @@
 
 # ruby study
 
+---
+
+
 ## Hello world
 
 ### ruby
@@ -74,6 +77,7 @@ or
 $ php -r "echo 'hello world';"
 ```
 
+---
 
 ## Object
 
@@ -173,6 +177,8 @@ a #=> "foobar"
 b #=> "foobar"
 ```
 
+---
+
 ## structures
 
 ### Array
@@ -217,6 +223,7 @@ hoges   #=> {:hoge=>1, :piyp=>5}
 シンボル以外は  {‘hoge’ => 1} という書き方になります。
 ※通称ハッシュロケット
 
+---
 
 ## control
  
@@ -363,6 +370,7 @@ list.map(&:to_s)
 
 
 
+---
 
 ## class
 
