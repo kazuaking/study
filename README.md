@@ -173,7 +173,7 @@ a #=> "foobar"
 b #=> "foobar"
 ```
 
-
+## structures
 
 ### Array
 ```ruby
@@ -218,8 +218,8 @@ hoges   #=> {:hoge=>1, :piyp=>5}
 ※通称ハッシュロケット
 
 
-
-
+## control
+ 
 
 ### if
 
