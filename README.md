@@ -361,3 +361,210 @@ list.map(&:to_s)
 
 
 
+
+
+
+## class
+
+### ruby
+
+```ruby
+class Person
+  def name
+    @name
+  end
+
+  def name=(name)
+    @name = name
+  end
+end
+
+person = Person.new
+```
+* メソッドもifとかと同じで、ブロック内の最後の行が返り値になります。
+
+```ruby
+  #　NOTE: 以下の書き方で自動に作成してくれる 
+  attr_accessor :name     # プロパティnameの（getter/setter）
+  attr_reader :name       # プロパティnameの（getterのみread only的な使い方）
+  attr_writer :name       # プロパティnameの（setterのみwrite only的な使い方）
+```
+* こんな便利な機能が標準で搭載されています
+
+```ruby
+class Person
+  attr_accessor :name
+end
+```
+
+* なんとこれだけ！
+
+### java
+
+```java
+public class Person {
+    private int name;
+
+    public int getName() {
+        return name;
+    }
+    public void setName(int name) {
+        this.name = name;
+    }
+}
+Person person = new Person
+```
+* oh...
+
+### php
+
+```php
+<?php
+class Person{
+    private $name;
+
+    public function get_name($name){
+        return $this->name;
+    }
+
+    public function set_name($name){
+        $this->name = $name;
+    }
+}
+?>
+
+$person = new Person();
+```
+
+
+
+***
+
+## module
+
+* 面倒なので比較はしません。
+* moduleはいくつか使い方があります。
+
+### クラスへinclude
+
+```ruby
+module Greet
+  def hi
+    "hi!"
+  end
+end
+
+class Person
+  include Greet #Greetモジュールをincludeする
+end
+
+person = Person.new
+person.hi  # => "hi!"
+```
+
+
+### モジュールファンクション
+
+```ruby
+module Greet
+  def hi
+    "hi!"
+  end
+  module_function :hi
+end
+
+Greet::hi  # => "hi!"
+Greet.hi  # => "hi!" # これでも呼べるが::の方が推奨されている
+```
+
+### ネームスペース
+
+```ruby
+module Greet
+  class Say  
+    def self.hi
+      "hi!!"
+    end
+  end
+end
+
+Greet::Say.hi #=> "hi!!"
+```
+
+
+### その他色々
+
+
+```ruby
+class Person
+  attr_accessor :name
+  attr_accessor :country
+
+  # イニシャライザ
+  def initialize(name: 'unknown', country: nil) # Ruby2.0の機能キーワード引数
+    @name = name
+    @country = country || default_country  # countryに明示的にnilが指定されたらdefault_countryを使用
+  end
+
+  # 破壊的メソッドに!を付けるのは慣習(緩やかなルール)
+  def unknown!
+    @name = 'unknown'
+    @country = default_country
+  end
+
+  def check!
+    raise "Person unknown" if @name == 'unknown'  # 例外 文字列だけでRuntimeErrorになる。
+  end
+
+  # 例外補足
+  def etc
+    begin
+      # 通常処理
+    rescue
+      # 例外処理。引数を省略すると、StandardErrorのサブクラスの例外のみ処理する
+    rescue SomeError
+      # 例外処理。SomeErrorの例外のみ処理する。
+    ensure
+      # 例外の発生に関わらず必ず実行される処理
+    else
+      # 例外が発生しなかったときに実行される処理
+    end
+  end
+
+  # クラスメソッド
+  def self.human?  # true/falseを返すメソッドに?を付けるのも慣習
+    true
+  end
+
+  # まとめるのも出来る
+  class << self
+    def beast?  # true/falseを返すメソッドに?を付けるのも慣習
+      false
+    end
+  end
+
+  private
+
+  # privateと宣言した後のメソッドはすべてprivateになる
+  def default_country
+    'japanese'
+  end
+end
+
+Person.human? #=> true
+Person.beast? #=> false
+p = Person.new(name: 'kazuaking', country: 'usa')
+p.name #=> 'kazuaking'
+
+p.check!
+#=> RuntimeError: Person unknown
+
+p.default_country
+#=> NoMethodError: private method `default_country' ...
+# でも
+p.send(:default_country) #=> "japanese"
+# sendで呼べちゃう
+p.try(:default_country) #=> "japanese"
+```
+
+
