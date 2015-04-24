@@ -590,6 +590,8 @@ Person.beast? #=> false
 p = Person.new(name: 'kazuaking', country: 'usa')
 p.name #=> 'kazuaking'
 
+p.unknown!
+
 p.check!
 #=> RuntimeError: Person unknown
 
