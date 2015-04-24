@@ -554,14 +554,14 @@ class Person
   def etc
     begin
       # 通常処理
-    rescue
-      # 例外処理。引数を省略すると、StandardErrorのサブクラスの例外のみ処理する
     rescue SomeError
       # 例外処理。SomeErrorの例外のみ処理する。
-    ensure
-      # 例外の発生に関わらず必ず実行される処理
+    rescue
+      # 例外処理。引数を省略すると、StandardErrorのサブクラスの例外のみ処理する
     else
       # 例外が発生しなかったときに実行される処理
+    ensure
+      # 例外の発生に関わらず必ず実行される処理
     end
   end
 
