@@ -95,6 +95,13 @@ $ php -r "echo 'hello world';"
  * ※(参考)http://simanman.hatenablog.com/entry/2014/01/07/154357
 
 ```ruby
+4611686018427387903.class
+#=> Fixnum
+4611686018427387904.class
+#=> Bignum
+``
+
+```ruby
 a = 1
 ++a #=> 1 #効果無し
 a-- #=> syntax error, unexpected keyword_end
