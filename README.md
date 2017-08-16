@@ -30,7 +30,7 @@ or
 ruby -e "puts 'hello world'"
 ```
 
-### java
+### java だと、、、、
 
 ```bash
 $ vi hello.java
@@ -49,7 +49,7 @@ $ javac hello.java
 $ java hello.class
 ```
 
-### php
+### php だと、、、、
 
 ```bash
 $ vi hello.php
@@ -78,8 +78,14 @@ $ php -r "echo 'hello world';"
 ```
 
 ---
+# Ruby 言語仕様について
 
 ## Object
+
+純粋なオブジェクト指向言語。そのためプリミティブ型が存在しない。
+数値や、文字列、真偽値は全てオブジェクト(ただし、真偽値は疑似変数)
+=や==はオブジェクトのメソッド扱い
+
 
 ### 数値
 
@@ -99,7 +105,7 @@ $ php -r "echo 'hello world';"
 #=> Fixnum
 4611686018427387904.class
 #=> Bignum
-``
+```
 
 ```ruby
 a = 1
